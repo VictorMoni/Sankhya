@@ -1,0 +1,24 @@
+<section class="home">
+  <h1>Bem-vindo 👋</h1>
+  <p>Escolha uma opção para começar:</p>
+
+  <nav class="grid">
+    <a
+      class="card"
+      routerLink="/products"
+      aria-label="Ir para catálogo de produtos"
+    >
+      <h2>Produtos</h2>
+      <p>Veja o catálogo e adicione itens ao carrinho.</p>
+    </a>
+
+    <a class="card" routerLink="/cart" aria-label="Ir para o carrinho">
+      <h2>Carrinho</h2>
+      <p>
+        Itens: <strong>{{ totalQty() }}</strong
+        ><br />
+        Subtotal: <strong>R$ {{ subtotal() | number : "1.2-2" }}</strong>
+      </p>
+    </a>
+  </nav>
+</section>

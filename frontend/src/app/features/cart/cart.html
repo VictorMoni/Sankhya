@@ -1,0 +1,24 @@
+<aside class="cart" aria-label="Carrinho de compras">
+  <h2>Carrinho</h2>
+  <ul>
+    <li *ngFor="let x of cart.items$()">
+      <span>{{ x.product.name }}</span>
+      <div class="qty">
+        <button aria-label="Diminuir quantidade" (click)="cart.dec(x.product)">
+          -
+        </button>
+        <strong>{{ x.quantity }}</strong>
+        <button aria-label="Aumentar quantidade" (click)="cart.inc(x.product)">
+          +
+        </button>
+      </div>
+      <button aria-label="Remover do carrinho" (click)="cart.remove(x.product)">
+        Remover
+      </button>
+    </li>
+  </ul>
+  <div class="subtotal">
+    Subtotal: R$ {{ cart.subtotal() | number : "1.2-2" }}
+  </div>
+  <button (click)="checkout()">Finalizar</button>
+</aside>

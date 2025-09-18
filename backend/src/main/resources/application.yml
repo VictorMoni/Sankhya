@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sankhya?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: admin
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+        open-in-view: false
+      sql:
+        init:
+          mode: always
+server:
+  port: 8080

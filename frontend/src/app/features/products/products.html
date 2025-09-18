@@ -1,0 +1,38 @@
+<section class="catalog">
+  <h1>Catálogo</h1>
+  <input
+    aria-label="Buscar produtos"
+    [formControl]="search"
+    placeholder="Buscar por nome..."
+  />
+
+  <div *ngIf="loading">Carregando…</div>
+  <ul class="grid">
+    <li *ngFor="let p of products" class="card" [class.inactive]="!p.active">
+      <h2>{{ p.name }}</h2>
+      <p>Preço: {{ p.price | currency : "BRL" }} • Estoque: {{ p.stock }}</p>
+      <button
+        aria-label="Adicionar {{ p.name }} ao carrinho"
+        (click)="add(p)"
+        [disabled]="p.stock === 0"
+      >
+        Adicionar
+      </button>
+    </li>
+  </ul>
+
+  <nav class="pager" role="navigation" aria-label="Paginação">
+    <button (click)="onPageChange(page - 1)" [disabled]="page === 0">
+      Anterior
+    </button>
+    <span>Página {{ page + 1 }} de {{ total / size | number : "1.0-0" }}</span>
+    <button
+      (click)="onPageChange(page + 1)"
+      [disabled]="(page + 1) * size >= total"
+    >
+      Próxima
+    </button>
+  </nav>
+</section>
+
+<app-cart></app-cart>
