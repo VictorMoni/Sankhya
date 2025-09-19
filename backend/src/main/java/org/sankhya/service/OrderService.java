@@ -15,11 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// src/main/java/org/sankhya/service/OrderService.java
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -29,72 +31,56 @@ public class OrderService {
 
     @Transactional
     public CreateOrderResponse checkout(CreateOrderRequest req){
-
-        // Agrupa itens por productId (soma quantidades duplicadas)
-        Map<Long, Integer> requestedQty = req.items().stream()
-                .collect(Collectors.toMap(
-                        CreateOrderRequest.Item::productId,
-                        CreateOrderRequest.Item::quantity,
-                        Integer::sum
-                ));
-
-        // LOCK PESSIMISTA: FOR UPDATE
-        List<Product> found = productRepository.findAllForUpdateByIdIn(requestedQty.keySet());
-        Map<Long, Product> products = found.stream()
-                .collect(Collectors.toMap(Product::getId, p -> p));
-
-        List<OutOfStockError> errors = new ArrayList<>();
-
-        // Validação de disponibilidade
-        requestedQty.forEach((productId, qty) -> {
-            Product p = products.get(productId);
-            if (p == null || !Boolean.TRUE.equals(p.getActive())) {
-                errors.add(new OutOfStockError(productId, 0));
-                return;
-            }
-            int available = p.getStock();
-            if (available < qty) {
-                errors.add(new OutOfStockError(productId, available));
-            }
-        });
-
-        if (!errors.isEmpty()) {
-            throw new OutOfStockException(errors);
+        if (req == null || req.items() == null || req.items().isEmpty()) {
+            throw new IllegalArgumentException("Payload inválido: items vazio");
         }
 
+        Map<Long, Product> products = productRepository.findAllById(
+                req.items().stream().map(CreateOrderRequest.Item::productId).toList()
+        ).stream().collect(Collectors.toMap(Product::getId, p -> p));
+
+        List<OutOfStockError> errors = new ArrayList<>();
+        for (var it : req.items()) {
+            Product p = products.get(it.productId());
+            if (p == null || !Boolean.TRUE.equals(p.getActive())) {
+                errors.add(new OutOfStockError(it.productId(), 0));
+                continue;
+            }
+            int available = p.getStock();
+            if (available < it.quantity()) {
+                errors.add(new OutOfStockError(p.getId(), available));
+            }
+        }
+        if (!errors.isEmpty()) throw new OutOfStockException(errors);
+
         Order order = new Order();
+        order.setCreatedAt(OffsetDateTime.now());
         BigDecimal total = BigDecimal.ZERO;
 
-        // Debita estoque e monta itens
-        for (var entry : requestedQty.entrySet()) {
-            Long productId = entry.getKey();
-            int qty = entry.getValue();
-            Product p = products.get(productId);
-            p.setStock(p.getStock() - qty);
+        for (var it : req.items()) {
+            Product p = products.get(it.productId());
+            p.setStock(p.getStock() - it.quantity());
 
             OrderItem oi = new OrderItem();
             oi.setProduct(p);
-            oi.setQuantity(qty);
+            oi.setQuantity(it.quantity());
             oi.setUnitPrice(p.getPrice());
-            BigDecimal line = p.getPrice().multiply(BigDecimal.valueOf(qty));
+            BigDecimal line = p.getPrice().multiply(BigDecimal.valueOf(it.quantity()))
+                    .setScale(2, RoundingMode.HALF_EVEN);
             oi.setLineTotal(line);
             order.addItem(oi);
             total = total.add(line);
         }
 
         order.setTotal(total.setScale(2, RoundingMode.HALF_EVEN));
-
         Order saved = orderRepo.save(order);
-        productRepository.saveAll(products.values()); // persiste o novo estoque
+        productRepository.saveAll(products.values());
 
         return new CreateOrderResponse(
                 saved.getId(), saved.getTotal(),
                 saved.getItems().stream().map(oi -> new CreateOrderResponse.Line(
-                        oi.getProduct().getId(),
-                        oi.getProduct().getName(),
-                        oi.getQuantity(),
-                        oi.getUnitPrice(),
-                        oi.getLineTotal().setScale(2, RoundingMode.HALF_EVEN)
+                        oi.getProduct().getId(), oi.getProduct().getName(),
+                        oi.getQuantity(), oi.getUnitPrice(), oi.getLineTotal()
                 )).toList()
         );
     }

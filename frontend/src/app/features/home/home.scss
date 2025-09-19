@@ -1,43 +1,54 @@
-.home {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+/* home.scss (acrescente ao seu) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+}
+.btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+}
+.mini {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+.mini li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+.total {
+  margin-top: 0.5rem;
+}
 
-  h1 {
-    margin-bottom: 0.25rem;
-  }
-  p {
-    color: #666;
-  }
+.pager {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
+/* home.scss */
+.order-link {
+  color: #000; /* preto */
+  text-decoration: none; /* sem sublinhado */
+}
 
-  .card {
-    display: block;
-    padding: 1.25rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease,
-      border-color 0.15s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-      border-color: #d1d5db;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    }
-
-    h2 {
-      margin: 0 0 0.5rem;
-    }
-    p {
-      margin: 0;
-    }
-  }
+.order-link:visited,
+.order-link:hover,
+.order-link:active,
+.order-link:focus {
+  color: #000; /* mantém preto em todas as states */
+  text-decoration: none; /* continua sem sublinhado */
 }

@@ -1,0 +1,45 @@
+<section class="orders-page">
+  <header class="bar">
+    <h1>Pedidos</h1>
+    <div class="spacer"></div>
+    <button class="btn ghost" (click)="toggleDir()">
+      {{ dir === "desc" ? "Mais recentes primeiro" : "Mais antigos primeiro" }}
+    </button>
+  </header>
+
+  <div *ngIf="loading" class="state">Carregando…</div>
+
+  <ul class="list" *ngIf="!loading && rows.length; else empty">
+    <li *ngFor="let o of rows; trackBy: trackById" class="item">
+      <a
+        class="row"
+        [routerLink]="['/orders', o.id]"
+        aria-label="Abrir pedido {{ o.id }}"
+      >
+        <div class="left">
+          <strong class="id">#{{ o.id }}</strong>
+          <span class="date">{{ o.createdAt | date : "short" }}</span>
+        </div>
+        <div class="right">
+          <span class="count">{{ o.itemsCount }} itens</span>
+          <strong class="total">{{ o.total | currency : "BRL" }}</strong>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <ng-template #empty>
+    <div class="state">Nenhum pedido encontrado.</div>
+  </ng-template>
+
+  <nav class="pager" aria-label="Paginação">
+    <button (click)="prev()" [disabled]="page === 0">Anterior</button>
+    <span
+      >Página {{ page + 1 }} de
+      {{ (total + size - 1) / size | number : "1.0-0" }}</span
+    >
+    <button (click)="next()" [disabled]="(page + 1) * size >= total">
+      Próxima
+    </button>
+  </nav>
+</section>

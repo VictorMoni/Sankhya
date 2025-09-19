@@ -1,0 +1,48 @@
+<section class="order-card" *ngIf="detail as o; else state">
+  <header class="head">
+    <h1>Pedido #{{ o.id }}</h1>
+    <div class="meta">
+      <span>{{ qtyTotal() }} itens</span>
+      <strong class="grand">{{ o.total | currency : "BRL" }}</strong>
+    </div>
+  </header>
+
+  <table class="lines" aria-label="Itens do pedido">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th class="num">Qtd</th>
+        <th class="num">Unit.</th>
+        <th class="num">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let it of o.items">
+        <td>{{ it.name }}</td>
+        <td class="num">{{ it.quantity }}</td>
+        <td class="num">{{ it.unitPrice | currency : "BRL" }}</td>
+        <td class="num">{{ it.lineTotal | currency : "BRL" }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Total</td>
+        <td class="num">
+          <strong>{{ o.total | currency : "BRL" }}</strong>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <nav class="actions">
+    <a routerLink="/orders" class="btn">Voltar</a>
+    <button class="btn primary" type="button" (click)="print()">
+      Imprimir
+    </button>
+  </nav>
+</section>
+
+<ng-template #state>
+  <div class="state" *ngIf="loading">Carregando…</div>
+  <div class="state error" *ngIf="!loading && error">{{ error }}</div>
+</ng-template>
