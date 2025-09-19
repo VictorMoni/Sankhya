@@ -1,0 +1,42 @@
+# =========================
+# Build / dependências
+# =========================
+target
+build
+out
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Maven / Gradle wrappers
+# =========================
+.mvn/
+.gradle/
+.gradle-cache/
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# =========================
+# VSCode (caso use)
+# =========================
+.vscode/
+
+# =========================
+# Git
+# =========================
+.git
+.gitignore
+
+# =========================
+# Logs e temporários
+# =========================
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db

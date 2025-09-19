@@ -1,0 +1,22 @@
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Builds
+dist
+build
+.cache
+coverage
+
+# VSCode
+.vscode
+.history
+
+# Git
+.git
+.gitignore
+
+# SO / temp
+.DS_Store
+Thumbs.db

@@ -5,12 +5,15 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {}) // nada para excluir por enquanto
 @Entity
 @Table(name = "products")
 public class Product {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(length = 120, nullable = false)
@@ -28,5 +31,4 @@ public class Product {
     @Version
     @Column(nullable = false)
     private Integer version;
-
 }

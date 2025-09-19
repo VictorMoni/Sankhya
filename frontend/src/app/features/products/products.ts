@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { Product } from '../../model/Product';
-import { ApiService } from '../../service/ApiService';
-import { CartService } from '../../service/CartService';
-import { CartComponent } from '../cart/cart';
+import { Product } from '../../models/Product';
+import { ApiService } from '../../services/ApiService';
+import { CartService } from '../../services/CartService';
+import Cart from '../cart/cart';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CartComponent],
+  imports: [CommonModule, ReactiveFormsModule, Cart],
   templateUrl: './products.html',
   styleUrls: ['./products.scss'],
 })
-export class ProductsComponent implements OnInit {
+export default class Products implements OnInit {
   search = new FormControl('', { nonNullable: true });
   page = 0;
   size = 10;
@@ -35,10 +35,11 @@ export class ProductsComponent implements OnInit {
     this.load();
   }
 
+  // src/app/features/products/products.ts (apenas no load())
   load() {
     this.loading = true;
     this.api
-      .listProducts(this.search.value, this.page, this.size)
+      .listProducts(this.search.value, this.page, this.size) // agora usa q no service
       .subscribe((page) => {
         this.products = page.content;
         this.total = page.totalElements;
