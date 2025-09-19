@@ -6,6 +6,8 @@ import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -13,14 +15,8 @@ import java.util.*;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(OutOfStockException.class)
-    public ResponseEntity<Map<String,Object>> handleOutOfStock(OutOfStockException ex){
-        Map<String,Object> body = new LinkedHashMap<>();
-        body.put("status", 422);
-        body.put("error", "Unprocessable Entity");
-        body.put("timestamp", OffsetDateTime.now());
-        body.put("message", "Some products are out of stock or insufficient");
-        body.put("errors", ex.getErrors());
-        return ResponseEntity.unprocessableEntity().body(body);
+    public ResponseEntity<List<OutOfStockError>> handleOutOfStock(OutOfStockException ex) {
+        return ResponseEntity.unprocessableEntity().body(ex.getErrors());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -58,13 +54,11 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String,Object>> handleGeneric(Exception ex){
-        Map<String,Object> body = new LinkedHashMap<>();
-        body.put("status", 500);
-        body.put("error", "Internal Server Error");
-        body.put("timestamp", OffsetDateTime.now());
-        body.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    public ResponseEntity<Object> handleUnexpected(Exception ex) {
+        // se quiser logar ex.printStackTrace();
+        return ResponseEntity
+                .status(500)
+                .body(Map.of("status", 500, "error", "Internal Server Error"));
     }
 
     @ExceptionHandler(InventoryViolationException.class)
@@ -76,5 +70,15 @@ public class ApiExceptionHandler {
         body.put("message", "Inventory violation");
         body.put("errors", ex.getErrors());
         return ResponseEntity.unprocessableEntity().body(body);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Object> handleResponseStatus(ResponseStatusException ex) {
+        return ResponseEntity
+                .status(ex.getStatusCode())
+                .body(Map.of(
+                        "status", ex.getStatusCode().value(),
+                        "error", ex.getReason() != null ? ex.getReason() : ex.getStatusCode().toString()
+                ));
     }
 }
