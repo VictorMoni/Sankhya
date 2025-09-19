@@ -3,7 +3,7 @@ package org.sankhya.service;
 import lombok.RequiredArgsConstructor;
 import org.sankhya.dto.CreateOrderRequest;
 import org.sankhya.dto.CreateOrderResponse;
-import org.sankhya.dto.OutOfStockError;
+import org.sankhya.exception.OutOfStockError;
 import org.sankhya.exception.OutOfStockException;
 import org.sankhya.model.Order;
 import org.sankhya.model.OrderItem;

@@ -2,6 +2,7 @@
 package org.sankhya.controller;
 
 import jakarta.validation.Valid;
+import org.sankhya.api.OrderApi;
 import org.sankhya.dto.CreateOrderRequest;
 import org.sankhya.dto.CreateOrderResponse;
 import org.sankhya.dto.OrderDetailResponse;
@@ -21,7 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/orders")
-public class OrderController {
+public class OrderController implements OrderApi {
 
     private final OrderRepository repo;
     private final OrderService service;

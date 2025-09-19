@@ -1,6 +1,7 @@
 // src/main/java/org/sankhya/controller/ProductController.java
 package org.sankhya.controller;
 
+import org.sankhya.api.ProductApi;
 import org.sankhya.dto.ProductCreateRequest;
 import org.sankhya.dto.ProductResponse;
 import org.sankhya.dto.ProductUpdateRequest;
@@ -21,7 +22,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/products")
 @Validated
-public class ProductController {
+public class ProductController implements ProductApi {
 
     private final ProductRepository repo;
 
