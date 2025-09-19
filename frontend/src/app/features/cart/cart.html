@@ -1,24 +1,86 @@
-<aside class="cart" aria-label="Carrinho de compras">
-  <h2>Carrinho</h2>
-  <ul>
-    <li *ngFor="let x of cart.items$()">
-      <span>{{ x.product.name }}</span>
-      <div class="qty">
-        <button aria-label="Diminuir quantidade" (click)="cart.dec(x.product)">
-          -
-        </button>
-        <strong>{{ x.quantity }}</strong>
-        <button aria-label="Aumentar quantidade" (click)="cart.inc(x.product)">
-          +
-        </button>
+<section class="cart-panel" aria-label="Carrinho de compras">
+  <header class="cart-header">
+    <h2>Carrinho</h2>
+    <span class="badge" *ngIf="cart.items$().length">{{
+      cart.items$().length
+    }}</span>
+  </header>
+
+  <ul class="cart-list" *ngIf="cart.items$().length; else empty">
+    <li class="row" *ngFor="let it of cart.items$()">
+      <img
+        class="thumb"
+        [src]="thumbFor(it.product)"
+        [alt]="it.product.name"
+        (error)="thumbFallback($event)"
+      />
+
+      <div class="info">
+        <h3 class="name">{{ it.product.name }}</h3>
+        <p class="price">
+          {{ it.product.price | currency : "BRL" }}
+          <span class="sep">×</span> {{ it.quantity }}
+          <span class="line"
+            >= {{ it.product.price * it.quantity | currency : "BRL" }}</span
+          >
+        </p>
+
+        <div class="qty">
+          <button
+            (click)="cart.dec(it.product)"
+            aria-label="Diminuir quantidade"
+          >
+            −
+          </button>
+          <output>{{ it.quantity }}</output>
+          <button
+            (click)="cart.inc(it.product)"
+            aria-label="Aumentar quantidade"
+          >
+            +
+          </button>
+        </div>
       </div>
-      <button aria-label="Remover do carrinho" (click)="cart.remove(x.product)">
-        Remover
+
+      <button
+        class="remove"
+        (click)="cart.remove(it.product)"
+        aria-label="Remover item"
+      >
+        ×
       </button>
     </li>
   </ul>
-  <div class="subtotal">
-    Subtotal: R$ {{ cart.subtotal() | number : "1.2-2" }}
-  </div>
-  <button (click)="checkout()">Finalizar</button>
-</aside>
+
+  <ng-template #empty>
+    <div class="empty">
+      <p>Seu carrinho está vazio.</p>
+      <button routerLink="/orders" class="btn">Ir para os pedidos</button>
+    </div>
+  </ng-template>
+
+  <footer class="cart-footer">
+    <div class="subtotal">
+      <span>Subtotal</span>
+      <strong>{{ cart.subtotal() | currency : "BRL" }}</strong>
+    </div>
+    <div class="actions">
+      <button
+        class="btn primary"
+        (click)="checkout()"
+        [disabled]="!cart.items$().length"
+      >
+        Finalizar
+      </button>
+    </div>
+  </footer>
+</section>
+
+<!-- Toast simples após checkout -->
+<div class="order-toast" *ngIf="cart.lastOrder() as o">
+  <p>
+    Pedido <strong>#{{ o.id }}</strong> criado —
+    {{ o.total | currency : "BRL" }}
+  </p>
+  <button class="btn link" (click)="cart.setLastOrder(null)">Fechar</button>
+</div>

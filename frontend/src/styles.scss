@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+.back-home {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.back-home:hover {
+  transform: translateY(-1px);
+  border-color: #d1d5db;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.back-home:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .back-home {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media print {
+  .back-home {
+    display: none !important;
+  }
+}

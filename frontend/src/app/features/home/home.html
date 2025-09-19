@@ -1,24 +1,71 @@
 <section class="home">
   <h1>Bem-vindo 👋</h1>
-  <p>Escolha uma opção para começar:</p>
 
-  <nav class="grid">
-    <a
-      class="card"
-      routerLink="/products"
-      aria-label="Ir para catálogo de produtos"
-    >
-      <h2>Produtos</h2>
-      <p>Veja o catálogo e adicione itens ao carrinho.</p>
-    </a>
-
-    <a class="card" routerLink="/cart" aria-label="Ir para o carrinho">
+  <div class="grid">
+    <!-- Card: Carrinho (resumo) -->
+    <div class="card">
       <h2>Carrinho</h2>
-      <p>
-        Itens: <strong>{{ totalQty() }}</strong
-        ><br />
-        Subtotal: <strong>R$ {{ subtotal() | number : "1.2-2" }}</strong>
-      </p>
-    </a>
-  </nav>
+
+      <ng-container *ngIf="cart.items$().length; else carrinhoVazio">
+        <ul class="mini">
+          <li *ngFor="let it of cart.items$()">
+            {{ it.quantity }}× {{ it.product.name }}
+            <span class="price">
+              R$ {{ it.product.price * it.quantity | number : "1.2-2" }}
+            </span>
+          </li>
+        </ul>
+
+        <p class="total">
+          Subtotal: <strong>R$ {{ subtotal() | number : "1.2-2" }}</strong>
+        </p>
+
+        <a class="btn" routerLink="/cart" aria-label="Ir para o carrinho">
+          Finalizar pedido
+        </a>
+      </ng-container>
+
+      <ng-template #carrinhoVazio>
+        <p>Seu carrinho está vazio.</p>
+        <a class="btn" routerLink="/products" aria-label="Ir ao catálogo">
+          Ir ao catálogo
+        </a>
+      </ng-template>
+    </div>
+
+    <!-- Card: Pedidos recentes -->
+    <div class="card">
+      <h2>Pedidos recentes</h2>
+
+      <div *ngIf="loadingOrders">Carregando…</div>
+
+      <ul class="mini orders" *ngIf="!loadingOrders && orders.length">
+        <li *ngFor="let o of orders">
+          <a class="order-link" [routerLink]="['/orders', o.id]">
+            #{{ o.id }} — {{ o.createdAt | date : "short" }} —
+            {{ o.total | currency : "BRL" }}
+          </a>
+        </li>
+      </ul>
+
+      <p *ngIf="!loadingOrders && !orders.length">Nenhum pedido ainda.</p>
+
+      <nav
+        class="pager"
+        *ngIf="ordersTotal > ordersSize"
+        aria-label="Paginação"
+      >
+        <button (click)="ordersPrev()" [disabled]="ordersPage === 0">
+          Anterior
+        </button>
+        <span>Página {{ ordersPage + 1 }}</span>
+        <button
+          (click)="ordersNext()"
+          [disabled]="(ordersPage + 1) * ordersSize >= ordersTotal"
+        >
+          Próxima
+        </button>
+      </nav>
+    </div>
+  </div>
 </section>

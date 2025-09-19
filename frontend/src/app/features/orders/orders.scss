@@ -1,0 +1,89 @@
+.orders-page {
+  max-width: 920px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.bar .spacer {
+  flex: 1;
+}
+.btn.ghost {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.45rem 0.8rem;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.item .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.item .row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.left {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+.id {
+  font-size: 1.05rem;
+}
+.date {
+  color: #6b7280;
+}
+
+.right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.count {
+  color: #6b7280;
+}
+.total {
+  font-size: 1.05rem;
+}
+
+.pager {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.9rem;
+}
+.pager button {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem;
+}
+
+.state {
+  text-align: center;
+  color: #6b7280;
+  padding: 1rem 0;
+}

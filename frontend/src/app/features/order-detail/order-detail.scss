@@ -1,0 +1,93 @@
+.order-card {
+  max-width: 880px;
+  margin: 1.25rem auto;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  .meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: #6b7280;
+  }
+  .grand {
+    font-size: 1.15rem;
+    color: #111;
+  }
+
+  .lines {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.25rem;
+  }
+  .lines th,
+  .lines td {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  .lines thead th {
+    background: #f9fafb;
+    font-weight: 600;
+  }
+  .lines tfoot td {
+    border-top: 1px solid #ddd;
+    border-bottom: none;
+  }
+  .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
+  }
+  .btn {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    text-decoration: none;
+    color: #000;
+  }
+  .btn.primary {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+  }
+}
+
+@media print {
+  .order-card {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+  }
+  .actions {
+    display: none;
+  }
+}
+.state {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+.state.error {
+  color: #b91c1c;
+}
