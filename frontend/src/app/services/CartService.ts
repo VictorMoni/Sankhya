@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { OrderItemRequest } from '../model/OrderItemRequest';
-import { Product } from '../model/Product';
+import { OrderItemRequest } from '../models/OrderItemRequest';
+import { Product } from '../models/Product';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {

@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   mysql:
     image: mysql:8.0
@@ -11,28 +9,29 @@ services:
     environment:
       MYSQL_DATABASE: sankhya
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: admin
+      MYSQL_USER: root
       MYSQL_PASSWORD: 1234
       TZ: UTC
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"   # opcional, só se quiser acessar de fora
+      - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uapp", "-papp"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p1234"]
       interval: 10s
       timeout: 5s
       retries: 10
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: backend
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sankhya?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sankhya?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      # SPRING_PROFILES_ACTIVE: prod
       TZ: UTC
     depends_on:
       mysql:
@@ -40,18 +39,18 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/api/v1/products?size=1 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 25s
+    # Healthcheck opcional — requer curl no runtime image (veja nota abaixo)
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health | grep -q 'UP'"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 25s
 
   frontend:
     build:
       context: ./frontend
-      args:
-        APP_NAME: frontend   # nome do projeto Angular (pasta em dist/)
+      dockerfile: Dockerfile
     container_name: frontend
     depends_on:
       - backend

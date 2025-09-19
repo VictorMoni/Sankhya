@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
-import { CartService } from '../../service/CartService'; // ajuste o caminho se diferente
+import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/CartService'; // ajuste o caminho se diferente
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })
-export class HomeComponent {
+export default class Home {
   constructor(public cart: CartService) {}
 
   totalQty = computed(() =>

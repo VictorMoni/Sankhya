@@ -1,7 +1,8 @@
+// src/app/features/cart/cart.ts
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ApiService } from '../../service/ApiService';
-import { CartService } from '../../service/CartService';
+import { ApiService } from '../../services/ApiService';
+import { CartService } from '../../services/CartService';
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,7 @@ import { CartService } from '../../service/CartService';
   templateUrl: './cart.html',
   styleUrls: ['./cart.scss'],
 })
-export class CartComponent {
+export default class Cart {
   constructor(public cart: CartService, private api: ApiService) {}
 
   checkout() {
@@ -21,14 +22,19 @@ export class CartComponent {
         this.cart.clear();
       },
       error: (err) => {
-        if (err.status === 409) {
-          const list = err.error as { productId: number; available: number }[];
+        // Backend retorna 422 com { errors: [{ productId, available }, ...] }
+        if (err.status === 422 && err.error?.errors) {
+          const list = err.error.errors as {
+            productId: number;
+            available: number;
+          }[];
           const msg = list
             .map((x) => `Produto ${x.productId} disponível: ${x.available}`)
             .join('\n');
           alert('Itens indisponíveis:\n' + msg);
         } else {
           alert('Erro inesperado no checkout');
+          console.error(err);
         }
       },
     });
