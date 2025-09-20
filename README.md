@@ -1,9 +1,13 @@
 # 🛒 Sankhya
 
+<div align="center">
+
 [![Build](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![Docker](https://img.shields.io/badge/docker-ready-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+</div>
 
 Aplicativo full-stack desenvolvido em **Spring Boot** (Backend) + **Angular** (Frontend) + **MySQL**, com orquestração via **Docker Compose**.
 Funcionalidades principais: catálogo de produtos, carrinho, pedidos recentes e checkout.
