@@ -2,14 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8.0
@@ -18,11 +17,6 @@ jobs:
           MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost -uroot -p1234"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
 
     steps:
       - name: Checkout
@@ -45,19 +39,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      # Install pnpm (fix for 'Unable to locate executable file: pnpm')
-      - name: Set up pnpm
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
 
-      - name: Install deps (frontend)
-        working-directory: frontend
-        run: pnpm install --frozen-lockfile
+      # Cache do store do pnpm
+      - name: Get pnpm store path
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      # Instalar deps apenas do frontend
+      - name: Install deps (frontend)
+        run: pnpm --filter ./frontend install --frozen-lockfile
+
+      # Build do frontend
       - name: Build frontend
-        working-directory: frontend
-        run: pnpm build
+        run: pnpm --filter ./frontend build
