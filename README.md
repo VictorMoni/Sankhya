@@ -18,9 +18,14 @@ Funcionalidades principais: catálogo de produtos, carrinho, pedidos recentes e 
 
 ```
 SankhyaTest/
+├── .github               # Workflows e configurações do GitHub Actions
 ├── backend/              # API Spring Boot
 ├── frontend/             # Aplicação Angular
+├── .gitignore            # Arquivo para ignorar arquivos/pastas no Git
+├── CODE_OF_CONDUCT.md    # Guia de conduta para contribuidores
+├── CONTRIBUTING.md       # Orientações para contribuir com o projeto
 ├── docker-compose.yml    # Orquestração dos serviços
+├── LICENSE               # Licença de uso do projeto
 └── README.md             # Documentação do projeto
 ```
 
