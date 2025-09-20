@@ -5,7 +5,7 @@
 [![Docker](https://img.shields.io/badge/docker-ready-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-Aplicativo full-stack desenvolvido em **Spring Boot** (Backend) + **Angular** (Frontend) + **MySQL**, com orquestração via **Docker Compose**.  
+Aplicativo full-stack desenvolvido em **Spring Boot** (Backend) + **Angular** (Frontend) + **MySQL**, com orquestração via **Docker Compose**.
 Funcionalidades principais: catálogo de produtos, carrinho, pedidos recentes e checkout.
 
 ---
@@ -24,10 +24,10 @@ SankhyaTest/
 
 ## 🚀 Tecnologias
 
-- **Backend**: Spring Boot 3.4.0, Spring Data JPA, Flyway  
-- **Frontend**: Angular 20, HTML, SCSS  
-- **Banco de dados**: MySQL 8 (`utf8mb4`)  
-- **Infra**: Docker & Docker Compose  
+- **Backend**: Spring Boot 3.4.0, Spring Data JPA, Flyway
+- **Frontend**: Angular 20, HTML, SCSS
+- **Banco de dados**: MySQL 8 (`utf8mb4`)
+- **Infra**: Docker & Docker Compose
 
 ---
 
@@ -45,9 +45,9 @@ docker compose up -d --build
 ```
 
 Depois disso:
-- Backend → [http://localhost:8080](http://localhost:8080)  
-- Frontend → [http://localhost](http://localhost)  
-- Swagger → [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+- Backend → [http://localhost:8080](http://localhost:8080)
+- Frontend → [http://localhost](http://localhost)
+- Swagger → [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ---
 
@@ -55,27 +55,27 @@ Depois disso:
 
 A aplicação usa Flyway para criar o schema e popular produtos iniciais:
 
-- **V1__init.sql** → cria tabelas (`products`, `orders`, `order_items`)  
-- **V2__seed_products.sql** → insere produtos de catálogo com imagens  
+- **V1__init.sql** → cria tabelas (`products`, `orders`, `order_items`)
+- **V2__seed_products.sql** → insere produtos de catálogo com imagens
 
 ---
 
 ## 🎯 Funcionalidades
 
-- Catálogo de produtos com imagens  
-- Carrinho persistente (LocalStorage)  
-- Checkout com validação de estoque  
-- Histórico e detalhes de pedidos  
-- Toast de pedido criado com link para `/orders/:id`  
+- Catálogo de produtos com imagens
+- Carrinho persistente (LocalStorage)
+- Checkout com validação de estoque
+- Histórico e detalhes de pedidos
+- Toast de pedido criado com link para `/orders/:id`
 
 ---
 
 ## 🧪 Testes
 
-- **Backend**: Spring Boot Test (JPA, serviços, REST)  
-- **Frontend**:  
-  - Unitários com Karma + Jasmine  
-  - E2E com Playwright  
+- **Backend**: Spring Boot Test (JPA, serviços, REST)
+- **Frontend**:
+  - Unitários com Karma + Jasmine
+  - E2E com Playwright
 
 ---
 
@@ -94,9 +94,9 @@ A aplicação usa Flyway para criar o schema e popular produtos iniciais:
 
 Serviços incluídos:
 
-- **mysql**: banco de dados com volume persistente  
-- **backend**: aplicação Spring Boot (porta `8080`)  
-- **frontend**: aplicação Angular (porta `80`)  
+- **mysql**: banco de dados com volume persistente
+- **backend**: aplicação Spring Boot (porta `8080`)
+- **frontend**: aplicação Angular (porta `80`)
 
 O backend só sobe após o MySQL estar saudável.
 
@@ -104,21 +104,21 @@ O backend só sobe após o MySQL estar saudável.
 
 ## 📋 Como usar
 
-1. Acesse o frontend em `http://localhost`  
-2. Navegue no catálogo de produtos  
-3. Adicione itens ao carrinho  
-4. Finalize a compra → toast com link para pedido criado  
-5. Veja pedidos recentes em `/orders`  
+1. Acesse o frontend em `http://localhost`
+2. Navegue no catálogo de produtos
+3. Adicione itens ao carrinho
+4. Finalize a compra → toast com link para pedido criado
+5. Veja pedidos recentes em `/orders`
 
 ---
 
 ## 🚀 Melhorias futuras
 
-- Autenticação de usuários  
-- Interface 100% responsiva  
-- Persistência do carrinho no backend  
-- Upload de imagens reais para produtos  
-- Testes de integração mais completos  
+- Autenticação de usuários
+- Interface 100% responsiva
+- Persistência do carrinho no backend
+- Upload de imagens reais para produtos
+- Testes de integração mais completos
 
 ---
 
