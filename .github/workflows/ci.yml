@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
   build:
@@ -45,19 +45,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          # ❌ NÃO use cache: 'pnpm' aqui, pois exige pnpm já instalado
 
-      # Install pnpm (fix for 'Unable to locate executable file: pnpm')
-      - name: Set up pnpm
+      # Instala o pnpm (coloca no PATH)
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
 
+      # (Opcional) Verificar versão
+      - name: pnpm version
+        run: pnpm --version
+
+      # Instalar dependências do frontend
       - name: Install deps (frontend)
         working-directory: frontend
         run: pnpm install --frozen-lockfile
 
+      # Build do frontend
       - name: Build frontend
         working-directory: frontend
         run: pnpm build
