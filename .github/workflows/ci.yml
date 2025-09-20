@@ -45,25 +45,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # ❌ NÃO use cache: 'pnpm' aqui, pois exige pnpm já instalado
 
-      # Instala o pnpm (coloca no PATH)
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
 
-      # (Opcional) Verificar versão
-      - name: pnpm version
-        run: pnpm --version
+      # (opcional) cache do store do pnpm
+      - name: Get pnpm store path
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      # Instalar dependências do frontend
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      # Instalar deps apenas do frontend (funciona com/sem workspace)
       - name: Install deps (frontend)
-        working-directory: frontend
-        run: pnpm install --frozen-lockfile
+        run: pnpm --filter ./frontend install --frozen-lockfile
 
       # Build do frontend
       - name: Build frontend
-        working-directory: frontend
-        run: pnpm build
+        run: pnpm --filter ./frontend build
