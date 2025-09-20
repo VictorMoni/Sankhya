@@ -17,7 +17,7 @@ Funcionalidades principais: catálogo de produtos, carrinho, pedidos recentes e 
 ## 📂 Estrutura do Projeto
 
 ```
-SankhyaTest/
+Sankhya/
 ├── .github               # Workflows e configurações do GitHub Actions
 ├── backend/              # API Spring Boot
 ├── frontend/             # Aplicação Angular
