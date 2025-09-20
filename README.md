@@ -46,8 +46,8 @@ SankhyaTest/
 
 ```bash
 # clonar o repositório
-git clone https://github.com/VictorMoni/SankhyaTest.git
-cd SankhyaTest
+git clone https://github.com/VictorMoni/Sankhya.git
+cd Sankhya
 
 # subir os serviços
 docker compose up -d --build
