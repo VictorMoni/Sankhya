@@ -4,14 +4,15 @@ CREATE TABLE products (
       price DECIMAL(12,2) NOT NULL,
       stock INT NOT NULL CHECK (stock >= 0),
       active BOOLEAN NOT NULL DEFAULT TRUE,
-      version INT NOT NULL
-);
+      version INT NOT NULL DEFAULT 0,
+      UNIQUE KEY uk_products_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(12,2) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE order_items (
      id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -24,4 +25,4 @@ CREATE TABLE order_items (
      CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id),
      INDEX idx_order_items_order (order_id),
      INDEX idx_order_items_product (product_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

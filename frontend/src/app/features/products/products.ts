@@ -3,8 +3,8 @@ import { Component, OnInit, effect } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Product } from '../../models/Product';
-import { ApiService } from '../../services/ApiService';
-import { CartService } from '../../services/CartService';
+import { ApiService } from '../../services/api.service';
+import { CartService } from '../../services/cart.service';
 import CartComponent from '../cart/cart';
 
 @Component({
@@ -22,8 +22,10 @@ export default class ProductsComponent implements OnInit {
   products: Product[] = [];
   loading = false;
 
-  constructor(private api: ApiService, private cart: CartService) {
-    // 👇 efeito que dispara quando um pedido é finalizado
+  constructor(
+    private readonly api: ApiService,
+    private readonly cart: CartService
+  ) {
     effect(() => {
       if (this.cart.lastOrder()) {
         this.load();
@@ -70,26 +72,23 @@ export default class ProductsComponent implements OnInit {
   private slugify(name: string): string {
     return name
       .toLowerCase()
-      .normalize('NFD') // separa acentos
-      .replace(/[\u0300-\u036f]/g, '') // remove acentos
-      .replace(/[^a-z0-9]+/g, '-') // troca qualquer coisa por "-"
-      .replace(/^-+|-+$/g, ''); // remove "-" das pontas
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-+)|(-+$)/g, '');
   }
 
-  // exceções (ex.: "nº" -> "103")
-  private NAME_ALIASES: Record<string, string> = {
+  private readonly NAME_ALIASES: Record<string, string> = {
     'Filtro de Papel nº103': 'filtro-de-papel-103',
   };
 
-  // ✅ agora o tal método existe
   private productSlug(p: Product): string {
     return this.NAME_ALIASES[p.name] ?? this.slugify(p.name);
   }
 
-  // use onde precisar:
   imgFor(p: Product): string {
     const slug = this.productSlug(p);
-    return `/assets/${slug}.png`; // ajuste a pasta/extensão conforme seus arquivos
+    return `/assets/${slug}.png`;
   }
 
   imgsFor(p: Product): string[] {

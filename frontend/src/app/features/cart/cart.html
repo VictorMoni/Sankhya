@@ -76,11 +76,13 @@
   </footer>
 </section>
 
-<!-- Toast simples após checkout -->
-<div class="order-toast" *ngIf="cart.lastOrder() as o">
+<a
+  class="order-toast"
+  *ngIf="cart.lastOrder() as o"
+  [routerLink]="['/orders', o.id]"
+>
   <p>
-    Pedido <strong>#{{ o.id }}</strong> criado —
+    Pedido <strong>#{{ o.id }}</strong> criado -
     {{ o.total | currency : "BRL" }}
   </p>
-  <button class="btn link" (click)="cart.setLastOrder(null)">Fechar</button>
-</div>
+</a>

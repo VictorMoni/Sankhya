@@ -2,7 +2,6 @@
   <h1>Bem-vindo 👋</h1>
 
   <div class="grid">
-    <!-- Card: Carrinho (resumo) -->
     <div class="card">
       <h2>Carrinho</h2>
 
@@ -33,7 +32,6 @@
       </ng-template>
     </div>
 
-    <!-- Card: Pedidos recentes -->
     <div class="card">
       <h2>Pedidos recentes</h2>
 
@@ -49,6 +47,16 @@
       </ul>
 
       <p *ngIf="!loadingOrders && !orders.length">Nenhum pedido ainda.</p>
+
+      <div class="actions">
+        <a
+          class="btn"
+          routerLink="/orders"
+          aria-label="Ir para lista completa de pedidos"
+        >
+          Ver todos os pedidos
+        </a>
+      </div>
 
       <nav
         class="pager"

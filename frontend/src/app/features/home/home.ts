@@ -3,8 +3,8 @@ import { Component, OnInit, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderSummary } from '../../models/OrderSummary';
 import { Product } from '../../models/Product';
-import { ApiService, Page } from '../../services/ApiService';
-import { CartService } from '../../services/CartService';
+import { ApiService, Page } from '../../services/api.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -74,7 +74,6 @@ export default class HomeComponent implements OnInit {
     }
   }
 
-  // Abrir um pedido recente no componente de Carrinho (mostra o recibo)
   verPedido(id: number) {
     this.api.getOrder(id).subscribe((detail) => {
       this.cart.setLastOrder(detail);

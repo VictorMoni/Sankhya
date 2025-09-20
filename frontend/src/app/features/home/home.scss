@@ -1,4 +1,3 @@
-/* home.scss (acrescente ao seu) */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -39,16 +38,15 @@
   margin-top: 0.5rem;
 }
 
-/* home.scss */
 .order-link {
-  color: #000; /* preto */
-  text-decoration: none; /* sem sublinhado */
+  color: #000;
+  text-decoration: none;
 }
 
 .order-link:visited,
 .order-link:hover,
 .order-link:active,
 .order-link:focus {
-  color: #000; /* mantém preto em todas as states */
-  text-decoration: none; /* continua sem sublinhado */
+  color: #000;
+  text-decoration: none;
 }

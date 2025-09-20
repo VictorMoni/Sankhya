@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/Product';
-import { ApiService } from '../../services/ApiService';
-import { CartService } from '../../services/CartService';
+import { ApiService } from '../../services/api.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,10 +19,6 @@ export default class CartComponent {
     private readonly router: Router
   ) {}
 
-  /** Mostra o total atual:
-   * - se houver itens no carrinho => subtotal do carrinho
-   * - se carrinho estiver vazio e existir um recibo => total do último pedido
-   */
   displayTotal() {
     const subtotal = this.cart.subtotal();
     if (subtotal > 0) return subtotal;
@@ -33,15 +29,13 @@ export default class CartComponent {
   checkout() {
     const items = this.cart.toOrder();
     if (!items.length) {
-      // carrinho vazio: oferta uma nova compra (UX melhor do que erro)
       this.novaCompra();
       return;
     }
     this.api.checkout(items).subscribe({
       next: (res) => {
-        this.cart.setLastOrder(res); // recibo visível
-        this.cart.clear(); // carrinho zerado
-        // sem OK — o recibo fica no topo; o botão "Nova compra" aparece
+        this.cart.setLastOrder(res);
+        this.cart.clear();
       },
       error: (err) => {
         if (err.status === 422 && err.error?.errors) {
@@ -62,13 +56,11 @@ export default class CartComponent {
   }
 
   novaCompra() {
-    // opcional: esconder recibo ao sair
     this.cart.setLastOrder(null);
     this.router.navigate(['/products']);
   }
 
   thumbFor(p: Product): string {
-    // mapeie pelo nome pra bater com seus arquivos
     const map: Record<string, string> = {
       'Açúcar Mascavo 500g': '/assets/acucar-mascavo-500g.png',
       'Café Torrado 250g': '/assets/cafe-torrado-250g.png',

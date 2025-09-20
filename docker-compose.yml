@@ -9,8 +9,6 @@ services:
     environment:
       MYSQL_DATABASE: sankhya
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 1234
       TZ: UTC
     volumes:
       - mysql_data:/var/lib/mysql
@@ -31,7 +29,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sankhya?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
+      SPRING_FLYWAY_BASELINE_VERSION: "0"
+
       TZ: UTC
     depends_on:
       mysql:
@@ -39,13 +42,12 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
-    # Healthcheck opcional — requer curl no runtime image (veja nota abaixo)
-    # healthcheck:
-    #   test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health | grep -q 'UP'"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 10
-    #   start_period: 25s
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health | grep -q 'UP'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 25s
 
   frontend:
     build:

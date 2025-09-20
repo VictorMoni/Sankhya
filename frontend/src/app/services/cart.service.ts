@@ -1,29 +1,19 @@
-// src/app/services/CartService.ts
 import { effect, Injectable, signal } from '@angular/core';
+import { CreateOrderResponse } from '../models/CreateOrderResponse';
 import { OrderItemRequest } from '../models/OrderItemRequest';
 import { Product } from '../models/Product';
 
-type CartItem = { product: Product; quantity: number };
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly storageKey = 'cart:v1';
   private readonly items = signal<{ product: Product; quantity: number }[]>([]);
   readonly items$ = this.items.asReadonly();
-  private readonly last = signal<any | null>(null);
+  private readonly last = signal<CreateOrderResponse | null>(null);
 
   constructor() {
-    // salva toda mudança no localStorage
     effect(() => {
       localStorage.setItem(this.storageKey, JSON.stringify(this.items()));
     });
-  }
-
-  private load(): CartItem[] {
-    try {
-      return JSON.parse(localStorage.getItem(this.storageKey) ?? '[]');
-    } catch {
-      return [];
-    }
   }
 
   add(p: Product) {
@@ -65,7 +55,6 @@ export class CartService {
     }));
   }
 
-  // ==== NOVO: reservas/estoque visível ====
   reservedQty(productId: number): number {
     const it = this.items().find((x) => x.product.id === productId);
     return it ? it.quantity : 0;
@@ -80,7 +69,7 @@ export class CartService {
   }
   lastOrder = () => this.last();
 
-  setLastOrder(v: any | null) {
+  setLastOrder(v: CreateOrderResponse | null) {
     this.last.set(v);
   }
 }

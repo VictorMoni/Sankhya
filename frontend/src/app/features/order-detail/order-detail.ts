@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CreateOrderResponse as OrderDetailModel } from '../../models/CreateOrderResponse';
-import { ApiService } from '../../services/ApiService';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -16,7 +16,10 @@ export default class OrderDetail implements OnInit {
   error: string | null = null;
   detail: OrderDetailModel | null = null;
 
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(
+    private readonly api: ApiService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((p) => {

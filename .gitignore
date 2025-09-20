@@ -1,0 +1,46 @@
+# =======================
+# Node / Angular
+# =======================
+node_modules/
+dist/
+build/
+.npm/
+.pnpm-debug.log
+yarn.lock
+package-lock.json
+
+# Angular cache
+.angular/
+
+# =======================
+# Java / Spring Boot
+# =======================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE configs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Logs
+*.log
+logs/
+*.out
+
+# =======================
+# Docker / Compose
+# =======================
+# Named volumes (persistência local)
+mysql_data/
+
+# =======================
+# OS / Misc
+# =======================
+.DS_Store
+Thumbs.db

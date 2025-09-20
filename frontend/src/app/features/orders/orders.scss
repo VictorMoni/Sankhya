@@ -10,9 +10,11 @@
   gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
+
 .bar .spacer {
   flex: 1;
 }
+
 .btn.ghost {
   border: 1px solid #e5e7eb;
   background: #fff;
@@ -27,6 +29,7 @@
   display: grid;
   gap: 0.6rem;
 }
+
 .item .row {
   display: flex;
   justify-content: space-between;
@@ -49,9 +52,11 @@
   gap: 0.6rem;
   align-items: baseline;
 }
+
 .id {
   font-size: 1.05rem;
 }
+
 .date {
   color: #6b7280;
 }
@@ -61,9 +66,11 @@
   gap: 1rem;
   align-items: center;
 }
+
 .count {
   color: #6b7280;
 }
+
 .total {
   font-size: 1.05rem;
 }
@@ -75,6 +82,7 @@
   justify-content: center;
   margin-top: 0.9rem;
 }
+
 .pager button {
   border: 1px solid #e5e7eb;
   background: #fff;

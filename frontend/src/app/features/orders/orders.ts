@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderSummary } from '../../models/OrderSummary';
-import { ApiService } from '../../services/ApiService';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-orders',
@@ -19,7 +19,7 @@ export default class OrdersComponent implements OnInit {
   total = 0;
   dir: 'asc' | 'desc' = 'desc';
 
-  constructor(private api: ApiService) {}
+  constructor(private readonly api: ApiService) {}
   ngOnInit() {
     this.load();
   }
