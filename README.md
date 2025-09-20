@@ -1,4 +1,4 @@
-# 🛒 SankhyaTest
+# 🛒 Sankhya
 
 [![Build](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
