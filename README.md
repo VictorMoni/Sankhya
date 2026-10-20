@@ -1,3 +1,5 @@
+![Sankhya — project cover](.github/project-cover-dark.svg)
+
 # 🛒 Sankhya
 
 <div align="center">
